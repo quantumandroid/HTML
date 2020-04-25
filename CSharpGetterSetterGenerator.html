@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Title</title>
+</head>
+<body>
+<textarea rows="4" cols="100" type="text" placeholder="Input..." id="myInput"></textarea>
+  <button size="20" type="button" onclick="getInputValue();" style="vertical-align:top;">  Convert  </button>
+
+<textarea id="ta" class="js-copytextarea" rows="30" cols="100" placeholder="Output..."></textarea>
+ <button class="js-textareacopybtn" style="vertical-align:bottom;">Copy Output</button>
+	 
+	 
+        
+    
+    <script>
+        
+		
+        function getInputValue(){
+            // Selecting the input element and get its value 
+            var inputVal = document.getElementById("myInput").value;
+			var array = inputVal.split(',');
+            
+			var text = "";
+			var i;
+			for (i = 0; i < array.length; i++) {
+			//private
+			text +='private string _'.concat(array[i]).concat(' { get; set; } = "";');
+				text += "\n";
+				//public
+			text +='public string '.concat(array[i]);
+			text += "\n";
+			text +='{';
+			text += "\n";
+            text +='get';
+			text += "\n";
+            text +='{';
+			text += "\n";
+                text +='return _'.concat(array[i]).concat(';');
+				text += "\n";
+            text +='}';
+			text += "\n";
+            text +='set';
+			text += "\n";
+            text +='{';
+			text += "\n";
+                text +='if (_'.concat(array[i]).concat(' != value)');
+				text += "\n";
+                 text +='{';
+				text += "\n";
+                     text +=array[i].concat(' = value;');
+					text += "\n";
+                     text +='NotifyPropertyChanged();';
+					text += "\n";
+                 text +='}';
+				text += "\n";
+             text +='}';
+			text += "\n";
+			text +='}';
+				
+				//text += "<br><br>";
+				text += "\n\n";
+			}
+			
+            // Displaying the value
+            document.getElementById('ta').innerHTML = text; 
+        }
+		
+		
+		/////////////////////////////
+		
+		var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+
+copyTextareaBtn.addEventListener('click', function(event) {
+  var copyTextarea = document.querySelector('.js-copytextarea');
+  copyTextarea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+});
+		/////////////////////////////
+    </script>
+</body>
+</html>
